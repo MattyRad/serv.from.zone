@@ -39,10 +39,7 @@ php-standards:
 phpunit:
   stage: test
   script:
-    - ls
-    - ls ..
-    - ls vendor
-    - vendor/bin/phpunit -v --coverage-text --colors=never --stderr
+    - ./bin/phpunit -v --coverage-text --colors=never --stderr
 
 #phpstan-level0:
 #  stage: analyze
