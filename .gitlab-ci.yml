@@ -1,9 +1,5 @@
 image: edbizarro/gitlab-ci-pipeline-php:7.2-alpine
 
-#before_script:
-#  - apt-get update
-#  - apt-get install unzip
-
 stages:
   - build
   - lint
@@ -23,10 +19,10 @@ composer:
     paths:
       - vendor/
 
-yarn:
+npm:
   stage: build
   script:
-    - yarn
+    - npm install
   cache:
     key: ${CI_BUILD_REF_NAME}
     paths:
