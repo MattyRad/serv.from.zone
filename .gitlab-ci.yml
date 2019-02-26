@@ -1,11 +1,8 @@
-image: tetraweb/php
+image: edbizarro/gitlab-ci-pipeline-php:7.2-alpine
 
 before_script:
   - apt-get update
-  - apt-get install unzip php-zip php-xml
-  - php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
-  - php composer-setup.php
-  - php -r "unlink('composer-setup.php');"
+  - apt-get install unzip
 
 stages:
   - build
@@ -16,7 +13,7 @@ stages:
 composer:
   stage: build
   script:
-    - php composer.phar install
+    - composer install
   cache:
     key: ${CI_BUILD_REF_NAME}
     paths:
@@ -26,10 +23,10 @@ composer:
     paths:
       - vendor/
 
-npm:
+yarn:
   stage: build
   script:
-    - npm install
+    - yarn
   cache:
     key: ${CI_BUILD_REF_NAME}
     paths:
