@@ -1,0 +1,14 @@
+main:
+    path:    /
+    controller: App\Controller::index
+    condition:  "context.getMethod() in ['GET']"
+
+getValidate:
+    path:    /validate
+    condition:  "context.getMethod() in ['GET']"
+    controller: App\Controller::getValidate
+
+postValidate:
+    path:    /validate
+    condition:  "context.getMethod() in ['POST']"
+    controller: App\Controller::postValidate

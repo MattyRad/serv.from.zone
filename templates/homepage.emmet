@@ -1,0 +1,45 @@
+body[style=background-color:#272822;color:#F8F8F2]
+    >div.container
+        >div.row.justify-content-center
+            >div.col-12.col-md-8
+            >img.mx-auto.d-block[src=https://code.mradford.com/html-soup.png width=40%]
+            +br
+                >h1.text-center>{Serve HTML out of DNS with }+a[href=https://docs.emmet.io/abbreviations/syntax/ target=_blank]{Emmet!}
+            ^code{$ORIGIN &nbsp&nbsp&nbspexample.com.<br>@ &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbspCNAME serv.from.zone.<br>serv &nbsp&nbsp&nbsp&nbsp&nbsp&nbspTXT &nbsp&nbsp&quotbody>h1{Hello, World!}&quot}
+            +br
+            +br
+            +br
+            +small{Check out this website's emmet string for an example:&nbsp&nbsp}
+            +code{dig TXT +short serv.serv.from.zone}
+            +h2.text-center{Extras}
+            +h5{CSS}
+            +code{serv TXT &quotcss=https://example.com/css/file.min.css&quot}
+            +br
+            +code{serv TXT &quotcss=https://example.com/yet/another/css/file.min.css&quot}
+            +br+br
+            +h5{Scripts}
+            +code{serv TXT &quotscript=https://example.com/js/file.min.js&quot}
+            +br
+            +code{serv TXT &quotscript=https://example.com/yet/another/js/file.min.css&quot}
+            +br+br
+            +h5{Google Analytics}
+            +code{serv TXT &quotga=UA-12345678-1&quot}
+            +br+br
+            +h5{Title}
+            +code{serv TXT &quottitle=Hello World!&quot}
+            +br+br
+            +h5{Favicon link}
+            +code{serv TXT &quotfavicon=https://example.com/favicon.ico&quot}
+            +br+br
+            +h5{Meta Theme}
+            +code{serv TXT &quottheme=ababab&quot}
+            +br+br
+            +h5{Keywords}
+            +code{serv TXT &quotkeywords=keyword1, keywords2&quot}
+            +br+br
+            +h5{Description}
+            +code{serv TXT &quotdescription=Description of the site&quot}
+            +br+br
+            +br+br
+            +h4.text-center>a[href=https://code.mradford.com/post/serving-html-with-emmet/]{Why tho?}
+            +br+br

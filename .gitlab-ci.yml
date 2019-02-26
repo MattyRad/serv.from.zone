@@ -1,0 +1,57 @@
+image: tetraweb/php
+
+before_script:
+  - apt-get update
+  - apt-get install zip unzip
+  - php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');"
+  - php composer-setup.php
+  - php -r "unlink('composer-setup.php');"
+
+stages:
+  - build
+  - lint
+  - test
+  - analyze
+
+composer:
+  stage: build
+  script:
+    - php composer.phar install
+  cache:
+    key: ${CI_BUILD_REF_NAME}
+    paths:
+      - vendor/
+  artifacts:
+    expire_in: 1 hour
+    paths: vendor/
+
+npm:
+  stage: build
+  script:
+    - npm install
+  cache:
+    key: ${CI_BUILD_REF_NAME}
+    paths:
+      - node_modules/
+  artifacts:
+    expire_in: 1 hour
+    paths: node_modules/
+
+php-standards:
+  stage: lint
+  script: ./vendor/bin/php-cs-fixer fix src -v --dry-run --using-cache=no
+
+phpunit:
+  stage: test
+  script:
+    - ./vendor/bin/phpunit
+
+phpstan-level0:
+  stage: analyze
+  script:
+    - ./vendor/bin/phpstan analyse src --level=0
+
+phpstan-level1:
+  stage: analyze
+  script:
+    - ./vendor/bin/phpstan analyse src --level=1

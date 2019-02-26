@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Validate Emmet | serv.from.zone</title>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.18.0/axios.min.js"></script>
+</head>
+<body>
+  <textarea id="candidate" name="candidate" cols="120" rows="10"></textarea>
+  <br>
+  <br>
+  <input id="submit" type="submit" name="Submit" value="Check" onclick="submit()">
+  <script type="text/javascript">
+    function submit() {
+      var candidate = document.getElementById('candidate');
+
+      if (! candidate) {
+        console.warn('Candidate not found!');
+        return;
+      }
+
+      var button = document.getElementById('submit');
+      button.value = 'Loading';
+
+      axios.post('/validate', { candidate: candidate.value }).then(function(response) {
+        button.value = "Check";
+
+        if (response.data.success) {
+          alert('That is valid!');
+        } else {
+          alert('That is not valid!');
+        }
+      });
+    }
+  </script>
+</body>
+</html>
