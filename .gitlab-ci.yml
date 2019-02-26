@@ -39,7 +39,10 @@ php-standards:
 phpunit:
   stage: test
   script:
-    - ./vendor/phpunit/phpunit/phpunit -v --coverage-text --colors=never --stderr #what is with the redundancy?
+    - ls
+    - ls ..
+    - ls vendor
+    - vendor/bin/phpunit -v --coverage-text --colors=never --stderr
 
 #phpstan-level0:
 #  stage: analyze
