@@ -1,8 +1,8 @@
 image: edbizarro/gitlab-ci-pipeline-php:7.2-alpine
 
-before_script:
-  - apt-get update
-  - apt-get install unzip
+#before_script:
+#  - apt-get update
+#  - apt-get install unzip
 
 stages:
   - build
