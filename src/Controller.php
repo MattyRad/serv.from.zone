@@ -1,6 +1,5 @@
 <?php namespace App;
 
-use Psr\Log\LoggerInterface as Log;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -14,35 +13,16 @@ class Controller extends AbstractController
     /**
      * @Route("/", name="main")
      */
-    public function index(Request $request, DNS\Record\Resolver $resolver, Emmet\Expander $expander, Log $log)
+    public function index(Request $request, Service $service)
     {
         $host = getenv('HOSTNAME_OVERRIDE') ?: $request->getHost();
 
-        $records = $resolver->getServRecords($host);
+        $result = $service->process($host);
 
-        if (! $abbr = $records->getEmmetRecord()) {
-            $log->notice('Emmet record was not found;', ['host' => $host, 'records' => $records->toArray()]);
-
-            $expanded_payload = $expander->expand(sprintf(self::ERROR_NOT_FOUND, $host));
-        } else {
-            try {
-                $expanded_payload = $expander->expand($abbr);
-            } catch (Emmet\Exception\FailedExpansion $e) {
-                $log->notice('Failed to expand;', ['host' => $host, 'records' => $records->toArray()]);
-
-                $expanded_payload = $expander->expand(self::ERROR_BAD_STRING);
-            } catch (Emmet\Exception\LengthExceeded $e) {
-                $log->warning('Length exceeded;', ['host' => $host, 'length' => $e->getLength()]);
-
-                $expanded_payload = $expander->expand(self::ERROR_BAD_STRING);
-            }
-        }
-
-        if ($host !== 'serv.from.zone') {
-            $log->info('Successfully rendered;', ['host' => $host, 'records' => $records->toArray()]);
-        }
-
-        return $this->render('emmet/index.html.twig', compact('records', 'expanded_payload'));
+        return $this->render('emmet/index.html.twig', [
+            'records' => $result->getRecords(),
+            'expanded_payload' => $result->getExpandedPayload(),
+        ]);
     }
 
     /**
