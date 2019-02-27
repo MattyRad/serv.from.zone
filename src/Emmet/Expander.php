@@ -7,7 +7,7 @@ class Expander
     public function expand(string $abbr): string
     {
         if (($len = strlen($abbr)) > self::ABBR_LENGTH_MAX) {
-            throw new Exception\LengthException($len);
+            throw new Exception\LengthExceeded($len);
         }
 
         $output = '';

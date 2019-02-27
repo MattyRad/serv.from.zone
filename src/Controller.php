@@ -71,7 +71,7 @@ class Controller extends AbstractController
         } catch (Emmet\Exception\FailedExpansion $e) {
             return new JsonResponse(['success' => false]);
         } catch (Emmet\Exception\LengthExceeded $e) {
-            $expanded_payload = $expander->expand(self::ERROR_BAD_STRING);
+            $expanded = $expander->expand(self::ERROR_BAD_STRING);
         }
 
         return new JsonResponse(['success' => true, 'expanded' => $expanded]);

@@ -41,12 +41,12 @@ phpunit:
   script:
     - ./bin/phpunit -v --coverage-text --colors=never --stderr
 
-#phpstan-level0:
-#  stage: analyze
-#  script:
-#    - ./vendor/bin/phpstan analyse src --level=0
+phpstan-level0:
+  stage: analyze
+  script:
+    - ./vendor/bin/phpstan analyse src --level=0
 
-#phpstan-level1:
-#  stage: analyze
-#  script:
-#    - ./vendor/bin/phpstan analyse src --level=1
+phpstan-level1:
+  stage: analyze
+  script:
+    - ./vendor/bin/phpstan analyse src --level=1
