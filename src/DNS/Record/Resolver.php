@@ -7,6 +7,8 @@ class Resolver
     const PREFIXES = ['ga', 'favicon', 'title', 'keywords', 'description', 'theme'];
     const EXTERNAL_LINK_PREFIXES = ['css', 'script'];
 
+    private $dig;
+
     public function __construct(DNS\Dig $dig)
     {
         $this->dig = $dig;
