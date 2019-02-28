@@ -41,5 +41,5 @@ body[style=background-color:#272822;color:#F8F8F2]
             +code{serv TXT &quotdescription=Description of the site&quot}
             +br+br
             +br+br
-            +h4.text-center>a[href=https://code.mradford.com/post/serving-html-with-emmet/]{Why tho?}
+            +h4.text-center>a[href=https://code.mradford.com/post/serving-web-sites-with-emmet/]{Why tho?}
             +br+br
