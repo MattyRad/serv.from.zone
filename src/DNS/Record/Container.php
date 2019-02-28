@@ -41,15 +41,15 @@ class Container implements \JsonSerializable
     public function toArray(): array
     {
         return [
-            'emmet' => $this->emmet,
-            'theme' => $this->theme,
-            'description' => $this->description,
-            'keywords' => $this->keywords,
-            'ga' => $this->ga,
-            'favicon' => $this->favicon,
-            'title' => $this->title,
-            'css' => $this->css,
-            'scripts' => $this->scripts,
+            'emmet' => $this->getEmmetRecord(),
+            'theme' => $this->getTheme(),
+            'description' => $this->getDescription(),
+            'keywords' => $this->getKeywords(),
+            'ga' => $this->getGoogleAnalyticsCode(),
+            'favicon' => $this->getFaviconLink(),
+            'title' => $this->getTitle(),
+            'css' => $this->getCssLinks(),
+            'scripts' => $this->getScriptLinks(),
         ];
     }
 

@@ -32,4 +32,14 @@ class ExpanderTest extends \PHPUnit\Framework\TestCase
 
         $this->expander->expand(':;');
     }
+
+    /**
+     * @test
+     */
+    public function expand_should_throw_an_exception_when_length_is_exceeded()
+    {
+        $this->expectException(Emmet\Exception\LengthExceeded::class);
+
+        $this->expander->expand(str_repeat('a', Emmet\Expander::ABBR_LENGTH_MAX + 1));
+    }
 }
