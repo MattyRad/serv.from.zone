@@ -50,6 +50,9 @@ class Service
     private function makeResult(DNS\Record\Container $records, string $payload)
     {
         return new class($records, $payload) {
+            private $records;
+            private $payload;
+
             public function __construct(DNS\Record\Container $records, string $payload)
             {
                 $this->records = $records;
@@ -66,18 +69,5 @@ class Service
                 return $this->payload;
             }
         };
-    }
-
-    public function validate(string $abbr)
-    {
-        try {
-            $expanded = $this->expander->expand($abbr);
-        } catch (Emmet\Exception\FailedExpansion $e) {
-            return new JsonResponse(['success' => false]);
-        } catch (Emmet\Exception\LengthExceeded $e) {
-            $expanded = $this->expander->expand(self::ERROR_BAD_STRING);
-        }
-
-        return new JsonResponse(['success' => true, 'expanded' => $expanded]);
     }
 }
