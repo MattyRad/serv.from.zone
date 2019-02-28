@@ -1,13 +1,20 @@
 <?php namespace App\DNS\Record;
 
+use App\DNS;
+
 class Resolver
 {
     const PREFIXES = ['ga', 'favicon', 'title', 'keywords', 'description', 'theme'];
     const EXTERNAL_LINK_PREFIXES = ['css', 'script'];
 
-    public function getServRecords(string $hostname): Container
+    public function __construct(DNS\Dig $dig)
     {
-        $records = $this->getRecords('serv.' . $hostname, ['TXT']);
+        $this->dig = $dig;
+    }
+
+    public function getRecords(string $hostname): Container
+    {
+        $records = $this->dig->host($hostname, ['TXT']);
 
         foreach ($records as $key => $record) {
             foreach (self::EXTERNAL_LINK_PREFIXES as $link_prefix) {
@@ -57,26 +64,7 @@ class Resolver
             'title' => $title ?? null,
 
             'css' => $css ?? null,
-            'scripts' => $scripts ?? null,
+            'scripts' => $script ?? null,
         ]);
-    }
-
-    private function getRecords(string $hostname, array $types): array
-    {
-        //$records = dns_get_record('serv.' . $hostname, DNS_TXT);
-        // dns_get_record appears to be broken (PHP native bug?!) for __long txt records__, use dig directly instead
-
-        $output = [];
-
-        $hostname = escapeshellarg($hostname);
-        $types = escapeshellarg(implode(' ', $types));
-
-        exec("dig $types +short $hostname", $output);
-
-        $results = array_map(function ($value) {
-            return trim($value, '"');
-        }, $output);
-
-        return $results;
     }
 }

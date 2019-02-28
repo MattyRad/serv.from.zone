@@ -20,7 +20,7 @@ class Service
 
     public function process(string $host)
     {
-        $records = $this->resolver->getServRecords($host);
+        $records = $this->resolver->getRecords('serv.' . $host);
 
         if (! $abbr = $records->getEmmetRecord()) {
             $this->log->notice('Emmet record was not found;', ['host' => $host, 'records' => $records->toArray()]);
@@ -40,7 +40,7 @@ class Service
             }
         }
 
-        if ($host !== 'serv.from.zone') {
+        if ($host !== 'from.zone') {
             $this->log->info('Successfully rendered;', ['host' => $host, 'records' => $records->toArray()]);
         }
 

@@ -37,7 +37,7 @@ class ServiceTest extends \PHPUnit\Framework\TestCase
      */
     public function missing_dns_records_should_provide_error_html(DNS\Record\Container $records)
     {
-        $this->resolver->getServRecords($host = 'example.com')
+        $this->resolver->getRecords('serv.' . ($host = 'example.com'))
             ->willReturn($records);
 
         $this->expander->expand(sprintf(Service::ERROR_NOT_FOUND, $host))
@@ -54,7 +54,7 @@ class ServiceTest extends \PHPUnit\Framework\TestCase
      */
     public function a_missing_emmet_record_be_logged(DNS\Record\Container $records)
     {
-        $this->resolver->getServRecords($host = 'example.com')
+        $this->resolver->getRecords('serv.' . ($host = 'example.com'))
             ->willReturn($records);
 
         $this->expander->expand(sprintf(Service::ERROR_NOT_FOUND, $host))
@@ -79,7 +79,7 @@ class ServiceTest extends \PHPUnit\Framework\TestCase
      */
     public function records_and_expanded_payload_will_be_returned(DNS\Record\Container $records)
     {
-        $this->resolver->getServRecords($host = 'example.com')->willReturn($records);
+        $this->resolver->getRecords('serv.' . ($host = 'example.com'))->willReturn($records);
 
         $this->expander->expand(self::SAMPLE_ABBR)->willReturn(self::SAMPLE_EXPAND);
 
@@ -95,7 +95,7 @@ class ServiceTest extends \PHPUnit\Framework\TestCase
      */
     public function successful_foreign_hosts_should_be_logged(DNS\Record\Container $records)
     {
-        $this->resolver->getServRecords($host = 'example.com')->willReturn($records);
+        $this->resolver->getRecords('serv.' . ($host = 'example.com'))->willReturn($records);
 
         $this->expander->expand(self::SAMPLE_ABBR)->willReturn(self::SAMPLE_EXPAND);
 
@@ -111,7 +111,7 @@ class ServiceTest extends \PHPUnit\Framework\TestCase
      */
     public function main_host_should_be_not_be_logged(DNS\Record\Container $records)
     {
-        $this->resolver->getServRecords($host = 'serv.from.zone')->willReturn($records);
+        $this->resolver->getRecords('serv.' . ($host = 'from.zone'))->willReturn($records);
 
         $this->expander->expand(self::SAMPLE_ABBR)->willReturn(self::SAMPLE_EXPAND);
 
@@ -129,7 +129,7 @@ class ServiceTest extends \PHPUnit\Framework\TestCase
     {
         $e = new Emmet\Exception\FailedExpansion(self::SAMPLE_ABBR, 1);
 
-        $this->resolver->getServRecords($host = 'example.com')->willReturn($records);
+        $this->resolver->getRecords('serv.' . ($host = 'example.com'))->willReturn($records);
 
         $this->expander->expand(Service::ERROR_BAD_STRING)->willReturn(self::SAMPLE_EXPANDED_ERROR);
 
@@ -149,7 +149,7 @@ class ServiceTest extends \PHPUnit\Framework\TestCase
     {
         $e = new Emmet\Exception\FailedExpansion(self::SAMPLE_ABBR, 1);
 
-        $this->resolver->getServRecords($host = 'example.com')->willReturn($records);
+        $this->resolver->getRecords('serv.' . ($host = 'example.com'))->willReturn($records);
 
         $this->expander->expand(Service::ERROR_BAD_STRING)->willReturn(self::SAMPLE_EXPANDED_ERROR);
 
@@ -169,7 +169,7 @@ class ServiceTest extends \PHPUnit\Framework\TestCase
     {
         $e = new Emmet\Exception\LengthExceeded(Emmet\Expander::ABBR_LENGTH_MAX + 1);
 
-        $this->resolver->getServRecords($host = 'example.com')->willReturn($records);
+        $this->resolver->getRecords('serv.' . ($host = 'example.com'))->willReturn($records);
 
         $this->expander->expand(Service::ERROR_BAD_STRING)->willReturn(self::SAMPLE_EXPANDED_ERROR);
 
