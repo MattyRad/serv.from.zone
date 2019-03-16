@@ -14,6 +14,7 @@ class Container implements \JsonSerializable
     private $favicon;
     private $title;
     private $css;
+    private $inline_styles;
     private $scripts;
 
     public function __construct(
@@ -25,6 +26,7 @@ class Container implements \JsonSerializable
         ?string $favicon = null,
         ?string $title = null,
         ?array $css = [],
+        ?array $inline_styles = [],
         ?array $scripts = []
     ) {
         $this->emmet = $emmet;
@@ -35,6 +37,7 @@ class Container implements \JsonSerializable
         $this->favicon = $favicon;
         $this->title = $title;
         $this->css = $css;
+        $this->inline_styles = $inline_styles;
         $this->scripts = $scripts;
     }
 
@@ -49,6 +52,7 @@ class Container implements \JsonSerializable
             'favicon' => $this->getFaviconLink(),
             'title' => $this->getTitle(),
             'css' => $this->getCssLinks(),
+            'inline_styles' => $this->getInlineStyles(),
             'scripts' => $this->getScriptLinks(),
         ];
     }
@@ -66,6 +70,11 @@ class Container implements \JsonSerializable
     public function getCssLinks(): array
     {
         return $this->css ?: [];
+    }
+
+    public function getInlineStyles(): array
+    {
+        return $this->inline_styles ?: [];
     }
 
     public function getScriptLinks(): array

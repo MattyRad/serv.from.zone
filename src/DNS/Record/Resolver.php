@@ -25,8 +25,13 @@ class Resolver
 
                     $value = $parts[1] ?? null;
 
-                    if ($value && filter_var($value, FILTER_VALIDATE_URL) !== false) {
-                        ${$link_prefix}[] = $value;
+                    if ($value) {
+                        if (filter_var($value, FILTER_VALIDATE_URL) !== false) {
+                            ${$link_prefix}[] = $value;
+                        } else {
+                            $inline_styles[] = $value;
+                        }
+
                         unset($records[$key]);
                     }
                 }
@@ -66,6 +71,7 @@ class Resolver
             'title' => $title ?? null,
 
             'css' => $css ?? null,
+            'inline_styles' => $inline_styles ?? null,
             'scripts' => $script ?? null,
         ]);
     }
