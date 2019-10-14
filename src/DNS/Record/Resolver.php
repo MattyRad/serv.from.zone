@@ -4,7 +4,7 @@ use App\DNS;
 
 class Resolver
 {
-    const PREFIXES = ['ga', 'favicon', 'title', 'keywords', 'description', 'theme'];
+    const PREFIXES = ['ga', 'favicon', 'title', 'keywords', 'description', 'theme', 'og_title', 'og_image'];
     const EXTERNAL_LINK_PREFIXES = ['css', 'script'];
 
     private $dig;
@@ -61,6 +61,10 @@ class Resolver
             $emmet = str_replace('" "', '', $emmet);
         }
 
+        $og_title = $og_title ?? '';
+        $og_image = $og_image ?? '';
+        $open_graph = ($og_title || $og_image) ? new OpenGraph($og_title, $og_image) : null;
+
         return Container::fromArray([
             'emmet' => $emmet,
             'theme' => $theme ?? null,
@@ -73,6 +77,7 @@ class Resolver
             'css' => $css ?? null,
             'inline_styles' => $inline_styles ?? null,
             'scripts' => $script ?? null,
+            'open_graph' => $open_graph,
         ]);
     }
 }
