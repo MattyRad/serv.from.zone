@@ -1,18 +1,16 @@
 <?php namespace App\DNS\Record;
 
-use MattyRad\Support\Conformation;
-
-class OpenGraph implements \JsonSerializable
+class OpenGraph
 {
-    use Conformation;
-
     private $title;
     private $image_link;
+    private $site_name;
 
-    public function __construct(string $title = '', string $image_link = '')
+    public function __construct(string $title = '', string $image_link = '', string $site_name = '')
     {
         $this->title = $title;
         $this->image_link = $image_link;
+        $this->site_name = $site_name;
     }
 
     public function getTitle()
@@ -23,5 +21,10 @@ class OpenGraph implements \JsonSerializable
     public function getImageLink()
     {
         return $this->image_link;
+    }
+
+    public function getSiteName()
+    {
+        return $this->site_name;
     }
 }

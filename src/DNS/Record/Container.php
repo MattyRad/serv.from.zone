@@ -41,6 +41,7 @@ class Container implements \JsonSerializable
         $this->css = $css;
         $this->inline_styles = $inline_styles;
         $this->scripts = $scripts;
+        $this->open_graph = $open_graph;
     }
 
     public function toArray(): array
