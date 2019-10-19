@@ -16,6 +16,7 @@ class Container implements \JsonSerializable
     private $css;
     private $inline_styles;
     private $scripts;
+    private $open_graph;
 
     public function __construct(
         ?string $emmet = null,
@@ -27,7 +28,8 @@ class Container implements \JsonSerializable
         ?string $title = null,
         ?array $css = [],
         ?array $inline_styles = [],
-        ?array $scripts = []
+        ?array $scripts = [],
+        ?OpenGraph $open_graph = null
     ) {
         $this->emmet = $emmet;
         $this->theme = $theme;
@@ -39,6 +41,7 @@ class Container implements \JsonSerializable
         $this->css = $css;
         $this->inline_styles = $inline_styles;
         $this->scripts = $scripts;
+        $this->open_graph = $open_graph;
     }
 
     public function toArray(): array
@@ -110,5 +113,10 @@ class Container implements \JsonSerializable
     public function getDescription(): ?string
     {
         return $this->description;
+    }
+
+    public function getOpenGraph(): ?OpenGraph
+    {
+        return $this->open_graph;
     }
 }

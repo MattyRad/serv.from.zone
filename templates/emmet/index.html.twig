@@ -19,6 +19,12 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="#{{ records.getTheme() }}">
   {% endif %}
 
+
+  {% if records.getOpenGraph() %}
+    <meta property="og:title" content="{{ records.getOpenGraph().getTitle() }}" />
+    <meta property="og:image" content="{{ records.getOpenGraph().getImageLink() }}" />
+  {% endif %}
+
   {% if records.getFaviconLink() %}
     <link rel="shortcut icon" type="image/png" href="{{ records.getFaviconLink() }}"/>
   {% endif %}

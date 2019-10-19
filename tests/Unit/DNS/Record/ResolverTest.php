@@ -42,6 +42,7 @@ class ResolverTest extends \PHPUnit\Framework\TestCase
           'scripts' => [
             'https://example.com/script.min.js',
           ],
+          'inline_styles' => [],
         ], $container->toArray());
     }
 
