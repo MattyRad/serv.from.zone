@@ -1,4 +1,7 @@
 {
+    "composer/package-versions-deprecated": {
+        "version": "1.8.0"
+    },
     "composer/semver": {
         "version": "1.4.2"
     },
@@ -128,6 +131,9 @@
     "nette/robot-loader": {
         "version": "v3.1.0"
     },
+    "nette/schema": {
+        "version": "v1.0.2"
+    },
     "nette/utils": {
         "version": "v2.5.3"
     },
@@ -136,6 +142,9 @@
     },
     "ocramius/proxy-manager": {
         "version": "2.1.1"
+    },
+    "php": {
+        "version": "7.2"
     },
     "php-cs-fixer/diff": {
         "version": "v1.3.0"
@@ -322,6 +331,9 @@
     },
     "symfony/polyfill-intl-icu": {
         "version": "v1.10.0"
+    },
+    "symfony/polyfill-intl-idn": {
+        "version": "v1.15.0"
     },
     "symfony/polyfill-mbstring": {
         "version": "v1.10.0"
