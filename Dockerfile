@@ -5,3 +5,6 @@ ADD ./public /var/www/html
 
 RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -
 RUN apt-get install -y nodejs
+
+WORKDIR "/var/www"
+RUN npm install
