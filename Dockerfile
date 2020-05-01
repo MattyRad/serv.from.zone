@@ -5,16 +5,12 @@ ADD ./public /var/www/html
 
 WORKDIR "/var/www"
 
-# npm
-RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -
-RUN apt-get install -y nodejs
-RUN npm install
-
 # composer
 RUN apt-get update && \
     apt-get install -y --no-install-recommends git zip curl
 
 RUN apt-get install -y \
+    dnsutils \
     libfreetype6-dev \
     libmcrypt-dev \
     zlib1g-dev \
@@ -23,6 +19,11 @@ RUN apt-get install -y \
     libxml2-dev \
     libzip-dev \
     libonig-dev
+
+# npm
+RUN curl -sL https://deb.nodesource.com/setup_10.x | bash -
+RUN apt-get install -y nodejs
+RUN npm install
 
 RUN docker-php-ext-install zip
 RUN docker-php-ext-install curl
