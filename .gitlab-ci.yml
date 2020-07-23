@@ -34,19 +34,33 @@ npm:
 
 php-standards:
   stage: lint
+  needs:
+    - job: composer
+      artifacts: true
   script: ./vendor/bin/php-cs-fixer fix src -v --dry-run --using-cache=no
 
 phpunit:
   stage: test
+  needs:
+    - job: composer
+      artifacts: true
+    - job: npm
+      artifacts: true
   script:
     - ./bin/phpunit -v --coverage-text --colors=never --stderr
 
 phpstan-level0:
   stage: analyze
+  needs:
+    - job: composer
+      artifacts: true
   script:
     - ./vendor/bin/phpstan analyse src --level=0
 
 phpstan-level1:
   stage: analyze
+  needs:
+    - job: composer
+      artifacts: true
   script:
     - ./vendor/bin/phpstan analyse src --level=1
