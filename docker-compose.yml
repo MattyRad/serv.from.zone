@@ -1,7 +1,0 @@
-version: '3.2'
-
-services:
-  serv:
-    build: .
-    ports:
-      - "80:80"
