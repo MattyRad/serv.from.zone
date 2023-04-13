@@ -8,23 +8,13 @@ CNAME or ALIAS your root hostname to point to `serv.from.zone`.
 
 Then you can has `html` hostnames containing HTML which will be served.
 
-```
-dig example.com
-```
+`dig example.com`
 
-```dig
-;; ANSWER SECTION:
-example.com.	99	IN	CNAME	serv.from.zone.
-```
+`example.com.	99	IN	CNAME	serv.from.zone.`
 
-```
-dig TXT html.example.com
-```
+`dig TXT html.example.com`
 
-```dig
-;; ANSWER SECTION:
-html.example.com. 99	IN	TXT	"<p>Hello world!</p>"
-```
+`html.example.com. 99	IN	TXT	"<p>Hello world!</p>"`
 
 ### Head
 
@@ -38,37 +28,28 @@ https://cdn.jsdelivr.net/npm/water.css@2/out/dark.css
 
 #### Elements
 It's possible to supply raw HTML, assuming your DNS provider doesn't block suspicious input:
-```
-<script type=module src=https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.3.0/dist/shoelace-autoloader.js></script>
-```
-But if your DNS provider doesn't allow that, then you can remove the arrows and it will get reconstructed:
-```
-script type=module src=https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.3.0/dist/shoelace-autoloader.js
-```
 
-```
-meta attr=someattr
-```
+`<script type=module src=https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.3.0/dist/shoelace-autoloader.js></script>`
+
+But if your DNS provider doesn't allow that, then you can remove the arrows and it will get reconstructed:
+
+`script type=module src=https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.3.0/dist/shoelace-autoloader.js`
+
+`meta attr=someattr`
 
 ### Body
 
 Everything that's not specifically a `head` element gets added as the body.
 
-```
-<p>Hello World</p>
-```
+`<p>Hello World</p>`
 
 ### Base64 Encoding
 
 If your DNS provider blocks the HTML you want to store in your TXT record, you can base64 encode the contents.
 
-```
-echo "<p>Let's run a script in the body\!</p><script>alert('I cannot be stopped\!')</script>" | base64 --wrap=0
-```
+`echo "<p>Let's run a script in the body\!</p><script>alert('I cannot be stopped\!')</script>" | base64 --wrap=0`
 
-```
-PHA+TGV0J3MgcnVuIGEgc2NyaXB0IGluIHRoZSBib2R5ITwvcD48c2NyaXB0PmFsZXJ0KCdJIGNhbm5vdCBiZSBzdG9wcGVkIScpPC9zY3JpcHQ+Cg==
-```
+`PHA+TGV0J3MgcnVuIGEgc2NyaXB0IGluIHRoZSBib2R5ITwvcD48c2NyaXB0PmFsZXJ0KCdJIGNhbm5vdCBiZSBzdG9wcGVkIScpPC9zY3JpcHQ+Cg==`
 
 Base64 encoding may also help with unexpected quoting (`"`, `'`) problems.
 
@@ -76,13 +57,9 @@ Base64 encoding may also help with unexpected quoting (`"`, `'`) problems.
 
 DNS providers and TXT records have length limits, so you may want to split up your body HTML into multiple records. You can specify the order TXT records should appear in using an integer prefix.
 
-```
-1=<h1>First</h1>
-```
+`1=<h1>First</h1>`
 
-```
-2=<h2>Second</h2>
-```
+`2=<h2>Second</h2>`
 
 Base64 decoding happens first, so if you use base64 be sure to include the `i=` prefix in the encoded string.
 
@@ -97,6 +74,4 @@ Base64 decoding happens first, so if you use base64 be sure to include the `i=` 
 
 This website is dogfooded!
 
-```
-dig +short TXT html.serv.from.zone
-```
+`dig +short TXT html.serv.from.zone`
