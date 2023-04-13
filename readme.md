@@ -70,8 +70,7 @@ Base64 decoding happens first, so if you use base64 be sure to include the `i=` 
  - No signup, login, or personal data required.
  - You can get a simple website running from the comfort of your domain registrar's admin panel.
  - Reduce the need for dedicated machines by serving many sites from 1 generalized server.
- - Attaching domain specific content to the zone makes sense in some cases ([RFC](https://tools.ietf.org/html/rfc1464#section-2)), since the data is decoupled from a specific [web] server. In this case, a string which represents HTML.
 
-This website is dogfooded!
+serv.from.zone is dogfooded!
 
 `dig +short TXT html.serv.from.zone`
