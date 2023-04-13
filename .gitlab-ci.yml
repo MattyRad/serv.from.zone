@@ -1,15 +1,9 @@
-stages:
-  - test
-  - build
-
 cargo:test:
-  stage: test
   image: rust
   script:
     - cargo test
 
 build:amd64:
-  stage: build
   image: rust
   script:
     - cargo build --release
@@ -18,7 +12,6 @@ build:amd64:
       - target/release/sfz
 
 dogfood:
-  stage: build
   image:
     name: pandoc/core:3.1-ubuntu
     entrypoint: [""]
