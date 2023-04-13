@@ -2,7 +2,7 @@
 
 Serve a website from TXT records.
 
-## How to
+## How
 
 CNAME or ALIAS your root hostname to point to `serv.from.zone`.
 
