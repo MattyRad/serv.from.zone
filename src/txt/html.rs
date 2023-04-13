@@ -222,14 +222,14 @@ impl TxtToStr for Vec<String> {
                     let integer: Result<i32, _> = val.parse();
 
                     match integer {
-                        Ok(_) => split.next().unwrap(),
-                        Err(_) => &txt,
+                        Ok(_) => split.collect::<String>(),
+                        Err(_) => txt,
                     }
                 }
-                None => &txt,
+                None => txt,
             };
 
-            carry += stripped_order.clone();
+            carry += &stripped_order.clone();
         }
 
         carry
