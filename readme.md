@@ -37,17 +37,11 @@ https://cdn.jsdelivr.net/npm/water.css@2/out/dark.css
 ```
 
 #### Elements
-
 It's possible to supply raw HTML, assuming your DNS provider doesn't block suspicious input:
-
-
-
 ```
 <script type=module src=https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.3.0/dist/shoelace-autoloader.js></script>
 ```
-
 But if your DNS provider doesn't allow that, then you can remove the arrows and it will get reconstructed:
-
 ```
 script type=module src=https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.3.0/dist/shoelace-autoloader.js
 ```
