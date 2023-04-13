@@ -1,66 +1,37 @@
-image: edbizarro/gitlab-ci-pipeline-php:7.2-alpine
-
 stages:
-  - build
-  - lint
   - test
-  - analyze
+  - build
 
-composer:
-  stage: build
-  script:
-    - composer install
-  cache:
-    key: ${CI_BUILD_REF_NAME}
-    paths:
-      - vendor/
-  artifacts:
-    expire_in: 1 hour
-    paths:
-      - vendor/
-
-npm:
-  stage: build
-  script:
-    - npm install
-  cache:
-    key: ${CI_BUILD_REF_NAME}
-    paths:
-      - node_modules/
-  artifacts:
-    expire_in: 1 hour
-    paths:
-      - node_modules/
-
-php-standards:
-  stage: lint
-  needs:
-    - job: composer
-      artifacts: true
-  script: ./vendor/bin/php-cs-fixer fix src -v --dry-run --using-cache=no
-
-phpunit:
+cargo:test:
   stage: test
-  needs:
-    - job: composer
-      artifacts: true
-    - job: npm
-      artifacts: true
+  image: rust
   script:
-    - ./bin/phpunit -v --coverage-text --colors=never --stderr
+    - cargo test
 
-phpstan-level0:
-  stage: analyze
-  needs:
-    - job: composer
-      artifacts: true
+build:amd64:
+  stage: build
+  image: rust
   script:
-    - ./vendor/bin/phpstan analyse src --level=0
+    - cargo build --release
+  artifacts:
+    paths:
+      - target/release/sfz
 
-phpstan-level1:
-  stage: analyze
-  needs:
-    - job: composer
-      artifacts: true
+dogfood:
+  stage: build
+  image:
+    name: pandoc/core:3.1-ubuntu
+    entrypoint: [""]
   script:
-    - ./vendor/bin/phpstan analyse src --level=1
+    - total_lines=$(wc -l < readme.md)
+    - half_lines=$((total_lines / 2))
+    - head -n $half_lines readme.md > first_half.md
+    - tail -n +$((half_lines + 1)) readme.md > second_half.md
+    - cat first_half.md | pandoc --from markdown --to html > first_half.html
+    - cat second_half.md | pandoc --from markdown --to html > second_half.html
+    - sed -i -e "1i 1=" first_half.html
+    - sed -i -e "1i 2=" second_half.html
+    - cat first_half.html
+    - cat first_half.html | base64 --wrap=0
+    - cat second_half.html
+    - cat second_half.html | base64 --wrap=0
