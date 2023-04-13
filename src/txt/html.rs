@@ -296,17 +296,25 @@ fn reconstruct_url(s: String) -> String {
 fn reconstruct_arrows(s: String) -> String {
     let normalized = normalize_html_attrs(s.clone());
 
+    // handle void tags first, then non-void tags
     let void_prefix = &s[0..5];
 
     if ["link ", "meta ", "base "].contains(&void_prefix) {
         return format!("<{normalized}>");
     }
 
-    if &s[0..7] == "script " {
+    if s.starts_with("script ") {
         return format!("<{normalized}></script>");
     }
 
-    // TODO: Other <head> tags
+    for tag in TAGS_HEAD {
+        let prefix = tag.to_string().clone() + ">";
+        let suffix = "</".to_string() + &tag.to_string().clone();
+
+        if s.starts_with(&prefix) && s.ends_with(&suffix) {
+            return format!("<{}>", s);
+        }
+    }
 
     s
 }
