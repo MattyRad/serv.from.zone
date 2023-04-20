@@ -1,0 +1,22 @@
+<hr>
+
+<h1>Base64 Helper</h1>
+<div>
+    <label for="input">Input Text:</label>
+    <textarea id="input" rows="4" cols="50" oninput="encodeToBase64()"></textarea>
+</div>
+<div>
+    <label for="output">Base64 Encoded Text:</label>
+    <textarea id="output" rows="4" cols="50" readonly></textarea>
+</div>
+
+<script>
+//document.addEventListener("DOMContentLoaded", function (event) {
+    function encodeToBase64() {
+        const input = document.getElementById('input');
+        const output = document.getElementById('output');
+        const encoded = btoa(input.value);
+        output.value = encoded;
+    }
+//});
+</script>

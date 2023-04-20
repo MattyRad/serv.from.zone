@@ -6,62 +6,71 @@ Serve a website from TXT records.
 
 CNAME or ALIAS your root hostname to point to `serv.from.zone`.
 
-Then you can has `html` hostnames containing HTML which will be served.
+Then you can add `html` hostnames containing HTML, which will be served.
 
-`dig example.com`
+```
+example.com.      3600  IN  CNAME serv.from.zone.
+html.example.com. 3600  IN  TXT   "<p>Hello world!</p>"
+```
 
-`example.com.	99	IN	CNAME	serv.from.zone.`
+## Hacking around TXT records
 
-`dig TXT html.example.com`
+### CSS/JS Urls
 
-`html.example.com. 99	IN	TXT	"<p>Hello world!</p>"`
-
-### Head
-
-#### CSS/JS Urls
-
-JS and CSS urls can be dropped in to the TXT record and it will be included in the `<head>` element.
+JS and CSS urls can be dropped in to the TXT record and they will be included in the `<head>` element.
 
 ```
 https://cdn.jsdelivr.net/npm/water.css@2/out/dark.css
 ```
 
-#### Elements
-It's possible to supply raw HTML, assuming your DNS provider doesn't block suspicious input:
+### Elements
 
-`<script type=module src=https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.3.0/dist/shoelace-autoloader.js></script>`
+It's possible to supply raw HTML, assuming your DNS provider allows suspicious input:
 
-But if your DNS provider doesn't allow that, then you can remove the arrows and it will get reconstructed:
+```html
+<script type=module src=https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.3.0/dist/shoelace-autoloader.js></script>
+```
 
-`script type=module src=https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.3.0/dist/shoelace-autoloader.js`
+But if your DNS provider doesn't allow suspicous input, then you can remove the arrows and it will get reconstructed:
 
-`meta attr=someattr`
+```
+script type=module src=https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.3.0/dist/shoelace-autoloader.js
+```
 
-### Body
 
-Everything that's not specifically a `head` element gets added as the body.
 
-`<p>Hello World</p>`
+
+
+
+```
+meta name=theme-color content=#4285f4
+```
+
+Everything that's not detected as a `<head>` element gets added as the body.
 
 ### Base64 Encoding
 
-If your DNS provider blocks the HTML you want to store in your TXT record, you can base64 encode the contents.
+You can make your input less suspicious by base64 encoding it.
 
-`echo "<p>Let's run a script in the body\!</p><script>alert('I cannot be stopped\!')</script>" | base64 --wrap=0`
+```
+echo "<p>Let's run a script in the body\!</p><script>alert('I cannot be stopped\!')</script>" | base64 --wrap=0
+```
 
-`PHA+TGV0J3MgcnVuIGEgc2NyaXB0IGluIHRoZSBib2R5ITwvcD48c2NyaXB0PmFsZXJ0KCdJIGNhbm5vdCBiZSBzdG9wcGVkIScpPC9zY3JpcHQ+Cg==`
+```
+PHA+TGV0J3MgcnVuIGEgc2NyaXB0IGluIHRoZSBib2R5ITwvcD48c2NyaXB0PmFsZXJ0KCdJIGNhbm5vdCBiZSBzdG9wcGVkIScpPC9zY3JpcHQ+Cg==
+```
 
 Base64 encoding may also help with unexpected quoting (`"`, `'`) problems.
 
 ### Ordering
 
-DNS providers and TXT records have length limits, so you may want to split up your body HTML into multiple records. You can specify the order TXT records should appear in using an integer prefix.
+You may want to split up your body HTML into multiple TXT records. You can specify the order TXT records should appear in using an integer prefix.
 
 `1=<h1>First</h1>`
 
 `2=<h2>Second</h2>`
 
-Base64 decoding happens first, so if you use base64 be sure to include the `i=` prefix in the encoded string.
+Base64 decoding happens prior to ordering, so if you use base64, be sure to include the `i=` prefix in the encoded string.
 
 ## What for?
 
@@ -73,4 +82,6 @@ Base64 decoding happens first, so if you use base64 be sure to include the `i=` 
 
 serv.from.zone is dogfooded!
 
-`dig +short TXT html.serv.from.zone`
+```
+dig +short TXT html.serv.from.zone
+```

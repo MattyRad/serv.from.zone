@@ -16,15 +16,4 @@ dogfood:
     name: pandoc/core:3.1-ubuntu
     entrypoint: [""]
   script:
-    - total_lines=$(wc -l < readme.md)
-    - half_lines=$((total_lines / 2))
-    - head -n $half_lines readme.md > first_half.md
-    - tail -n +$((half_lines + 1)) readme.md > second_half.md
-    - cat first_half.md | pandoc --ascii --from markdown --to html > first_half.html
-    - cat second_half.md | pandoc --ascii --from markdown --to html > second_half.html
-    - sed -i -e "1i 1=" first_half.html
-    - sed -i -e "1i 2=" second_half.html
-    - cat first_half.html
-    - cat first_half.html | base64 --wrap=0
-    - cat second_half.html
-    - cat second_half.html | base64 --wrap=0
+    - ./dogfood-readme.sh

@@ -222,7 +222,7 @@ impl TxtToStr for Vec<String> {
                     let integer: Result<i32, _> = val.parse();
 
                     match integer {
-                        Ok(_) => split.collect::<String>(),
+                        Ok(_) => split.collect::<Vec<&str>>().join("="),
                         Err(_) => txt,
                     }
                 }
