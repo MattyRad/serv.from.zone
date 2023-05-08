@@ -175,9 +175,8 @@ impl std::fmt::Display for Document {
 fn is_head_element(s: String) -> bool {
     for tag in TAGS_HEAD {
         let html_tag = format!("<{tag}");
-        let prefix = &s[0..html_tag.to_string().len()];
 
-        if html_tag == prefix {
+        if s.starts_with(&html_tag) {
             return true;
         }
     }
