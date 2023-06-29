@@ -8,42 +8,41 @@ use trust_dns_proto::rr::record_type::RecordType;
 use trust_dns_proto::rr::resource::Record;
 use trust_dns_resolver::config::*;
 use trust_dns_resolver::Resolver;
+use trust_dns_resolver::AsyncResolver;
 
 use crate::txt::html;
 
 use prettytable::Table;
 
 async fn get_records(hostname: String) -> Vec<String> {
-    // https://stackoverflow.com/questions/62536566/how-can-i-create-a-tokio-runtime-inside-another-tokio-runtime-without-getting-th
-    // https://stackoverflow.com/questions/52521201/how-do-i-synchronously-return-a-value-calculated-in-an-asynchronous-future
-    // FIXME: Figure out how to use the built in AsyncResolver provided by Trust DNS
-    tokio::task::spawn_blocking(|| {
-        let resolver: Resolver =
-            Resolver::new(ResolverConfig::default(), ResolverOpts::default()).unwrap();
+    let resolver_result = AsyncResolver::tokio_from_system_conf();
 
-        let response = match resolver.lookup(hostname, RecordType::TXT) {
-            Ok(result) => result,
-            Err(error) => {
-                eprintln!("{error}");
+    if resolver_result.is_err() {
+        panic!("Unable to get resolver");
+    }
 
-                return vec![];
-            }
-        };
+    let resolver = resolver_result.unwrap();
 
-        let records: &[Record] = response.records();
+    let response = match resolver.lookup(hostname, RecordType::TXT).await {
+        Ok(result) => result,
+        Err(error) => {
+            eprintln!("{error}");
 
-        let mut txts = vec![];
-
-        for record in records {
-            let contents = record.data().unwrap().to_string();
-
-            txts.push(html::reconstruct(contents));
+            return vec![];
         }
+    };
 
-        txts
-    })
-    .await
-    .unwrap()
+    let records: &[Record] = response.records();
+
+    let mut txts = vec![];
+
+    for record in records {
+        let contents = record.data().unwrap().to_string();
+
+        txts.push(html::reconstruct(contents));
+    }
+
+    txts
 }
 
 #[get("/")]
